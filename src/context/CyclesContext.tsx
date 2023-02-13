@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useReducer, useState } from 'react'
+import { createContext, ReactNode, useEffect, useReducer, useState } from 'react'
 import {
   addNewCycleAction,
   interruptCycleAction,
@@ -38,6 +38,12 @@ export function CyclesContextProvider({
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
+  useEffect(() => {
+    const stateJSON = JSON.stringify(cyclesState)
+
+    localStorage.setItem('@ignite-timer:cycles-state', stateJSON)
+  }, [cyclesState])
+
   const { cycles, activeCycleId } = cyclesState
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
@@ -66,7 +72,7 @@ export function CyclesContextProvider({
 
   function interruptCurrentCycle() {
     // No react nunca podemos alterar uma informação sem seguir os principios da imutabilidade
-    dispatch(interruptCycleAction(activeCycleId))
+    dispatch(interruptCycleAction())
   }
 
   return (
