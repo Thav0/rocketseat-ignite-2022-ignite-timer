@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useReducer, useState } from 'react'
-import { Cycle, cyclesReducer } from '../reducers/cycles'
+import { ActionTypes, Cycle, cyclesReducer } from '../reducers/cycles'
 
 interface CreateCycleData {
   task: string
@@ -43,7 +43,7 @@ export function CyclesContextProvider({
 
   function maskCurrentCycleAsFinished() {
     dispatch({
-      type: 'MARK_CURRENT_CYCLE_AS_FINISHED', // The type name is free text NAME_ name Name
+      type: ActionTypes.MARK_CURRENT_CYCLE_AS_FINISHED, // The type name is free text NAME_ name Name
       payload: {
         activeCycleId,
       },
@@ -60,7 +60,7 @@ export function CyclesContextProvider({
     }
 
     dispatch({
-      type: 'ADD_NEW_CYCLE', // The type name is free text NAME_ name Name
+      type: ActionTypes.ADD_NEW_CYCLE, // The type name is free text NAME_ name Name
       payload: {
         newCycle,
       },
@@ -72,7 +72,7 @@ export function CyclesContextProvider({
   function interruptCurrentCycle() {
     // No react nunca podemos alterar uma informação sem seguir os principios da imutabilidade
     dispatch({
-      type: 'INTERRUPT_CURRENT_CYCLE', // The type name is free text NAME_ name Name
+      type: ActionTypes.INTERRUPT_CURRENT_CYCLE, // The type name is free text NAME_ name Name
       payload: {
         activeCycleId,
       },
