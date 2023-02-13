@@ -1,5 +1,10 @@
 import { createContext, ReactNode, useReducer, useState } from 'react'
-import { ActionTypes, Cycle, cyclesReducer } from '../reducers/cycles'
+import {
+  addNewCycleAction,
+  interruptCycleAction,
+  markCurrentCycleAsFinishedAction,
+} from '../reducers/cycles/actions'
+import { Cycle, cyclesReducer } from '../reducers/cycles/reducer'
 
 interface CreateCycleData {
   task: string
@@ -42,12 +47,7 @@ export function CyclesContextProvider({
   }
 
   function maskCurrentCycleAsFinished() {
-    dispatch({
-      type: ActionTypes.MARK_CURRENT_CYCLE_AS_FINISHED, // The type name is free text NAME_ name Name
-      payload: {
-        activeCycleId,
-      },
-    })
+    dispatch(markCurrentCycleAsFinishedAction())
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -59,24 +59,14 @@ export function CyclesContextProvider({
       startDate: new Date(),
     }
 
-    dispatch({
-      type: ActionTypes.ADD_NEW_CYCLE, // The type name is free text NAME_ name Name
-      payload: {
-        newCycle,
-      },
-    })
+    dispatch(addNewCycleAction(newCycle))
 
     setAmountSecondsPassed(0)
   }
 
   function interruptCurrentCycle() {
     // No react nunca podemos alterar uma informação sem seguir os principios da imutabilidade
-    dispatch({
-      type: ActionTypes.INTERRUPT_CURRENT_CYCLE, // The type name is free text NAME_ name Name
-      payload: {
-        activeCycleId,
-      },
-    })
+    dispatch(interruptCycleAction(activeCycleId))
   }
 
   return (
